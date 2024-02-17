@@ -389,7 +389,17 @@ files = [
     {file = "uritemplate-4.1.1.tar.gz", hash = "sha256:4346edfc5c3b79f694bccd6d6099a322bbeb628dbf2cd86eea55a456ce5124f0"},
 ]
 
+[[package]]
+name = "uwsgi"
+version = "2.0.24"
+description = "The uWSGI server"
+optional = false
+python-versions = "*"
+files = [
+    {file = "uwsgi-2.0.24.tar.gz", hash = "sha256:77b6dd5cd633f4ae87ee393f7701f617736815499407376e78f3d16467523afe"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "0563f8756f774321cd0dca0cc626a31b1aeeff229540575acff3e212747c2a34"
+content-hash = "cf79c0626f6f77e76e9ad36b17cad0c370a65dc4046e078ba1cc5d57a7d08064"

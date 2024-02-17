@@ -5,7 +5,6 @@ description = ""
 authors = ["inna-tuzhikova <inna-tuzhikova@github.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "script_license_manager"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -19,6 +18,10 @@ drf-yasg = "^1.21.7"
 flake8 = "^7.0.0"
 isort = "^5.13.2"
 flake8-pyproject = "^1.2.3"
+
+
+[tool.poetry.group.prod.dependencies]
+uwsgi = "^2.0.24"
 
 [build-system]
 requires = ["poetry-core"]
@@ -35,3 +38,4 @@ ensure_newline_before_comments = true
 [tool.flake8]
 ignore = ["W503", "F811", "E722"]
 max-line-length = 80
+exclude = ["script_license_manager/settings.py"]
