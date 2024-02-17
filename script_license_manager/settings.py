@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 # Application definition
 
 INSTALLED_APPS = [
+    'scripts.apps.ScriptsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,7 +77,7 @@ WSGI_APPLICATION = 'script_license_manager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.environ.get('SQL_DATABASE', 'slm'),
+        'NAME': os.environ.get('SQL_DATABASE', 'slm_dev'),
         'USER': os.environ.get('SQL_USER', 'slm'),
         'PASSWORD': os.environ.get('SQL_PASSWORD', 'slm'),
         'HOST': os.environ.get('SQL_HOST', 'localhost'),
