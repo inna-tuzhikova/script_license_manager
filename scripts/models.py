@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+FORCE_ISSUE_PLAIN_SCRIPT = 'force_issue_plain_script'
+FORCE_ISSUE_ENCODED_SCRIPT = 'force_issue_encoded_script'
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=1000, null=True)
@@ -28,14 +32,25 @@ class Script(models.Model):
     enabled = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     extra_params_schema = models.JSONField(null=True, default=None)
-    allow_issue_plain = models.BooleanField(default=True)
-    allow_issue_wo_lk = models.BooleanField(default=True)
-    allow_issue_w_lk = models.BooleanField(default=True)
-    allow_issue_w_expiration = models.BooleanField(default=True)
+    allow_issue_plain = models.BooleanField(default=False)
+    allow_issue_encoded = models.BooleanField(default=True)
+    allow_issue_encoded_lk = models.BooleanField(default=True)
+    allow_issue_encoded_exp = models.BooleanField(default=True)
+    allow_issue_encoded_lk_exp = models.BooleanField(default=True)
     tags = models.ManyToManyField(Tag)
 
     class Meta:
         ordering = ['name']
+        permissions = [
+            (
+                FORCE_ISSUE_PLAIN_SCRIPT,
+                'Can generate non encoded script ignoring script specification'
+            ),
+            (
+                FORCE_ISSUE_ENCODED_SCRIPT,
+                'Can generate encoded script ignoring script specification'
+            ),
+        ]
 
 
 class IssuedLicense(models.Model):

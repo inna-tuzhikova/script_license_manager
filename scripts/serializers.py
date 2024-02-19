@@ -17,8 +17,9 @@ class ScriptSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'description', 'category', 'enabled', 'is_active',
             'extra_params_schema',
-            'allow_issue_plain', 'allow_issue_wo_lk',
-            'allow_issue_w_lk', 'allow_issue_w_expiration',
+            'allow_issue_plain',
+            'allow_issue_encoded', 'allow_issue_encoded_lk',
+            'allow_issue_encoded_exp', 'allow_issue_encoded_lk_exp',
             'tags'
         ]
 
@@ -28,5 +29,5 @@ class IssuedLicenseSerializer(serializers.ModelSerializer):
         model = IssuedLicense
         fields = [
             'id', 'issued_at', 'license_key', 'script', 'issued_by',
-            'demo_lk', 'expires', 'extra_params', 'action'
+            'issue_type', 'action', 'demo_lk', 'expires', 'extra_params',
         ]

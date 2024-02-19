@@ -1,0 +1,12 @@
+- model: auth.group
+  pk: 1
+  fields:
+    name: Admin
+- model: auth.group
+  pk: 2
+  fields:
+    name: Developer
+- model: auth.group
+  pk: 3
+  fields:
+    name: Manager

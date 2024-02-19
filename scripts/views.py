@@ -6,7 +6,13 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from .filters import ScriptFilter
 from .models import Script, IssuedLicense
-from .permissions import IsDeveloper, CanIssuePlain, CanIssueEncoded, IsDemoUser
+from .permissions import (
+    CanForceIssuePlainScript,
+    CanForceIssueEncodedScript,
+    CanIssuePlainScript,
+    CanIssueEncodedScript,
+    IsDemoUser
+)
 from .serializers import ScriptSerializer, IssuedLicenseSerializer
 
 
@@ -19,7 +25,11 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
     @action(
         detail=True,
         methods=['post'],
-        permission_classes=[IsAuthenticated & (IsDeveloper | CanIssuePlain)]
+        permission_classes=[
+            IsAuthenticated & (
+                CanForceIssuePlainScript | CanIssuePlainScript
+            )
+        ]
     )
     def generate_plain(self, request, *args, **kwargs):
         script = self.get_object()
@@ -28,7 +38,11 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
     @action(
         detail=True,
         methods=['post'],
-        permission_classes=[IsAuthenticated & (IsDeveloper | CanIssueEncoded)]
+        permission_classes=[
+            IsAuthenticated & (
+                CanForceIssueEncodedScript | CanIssueEncodedScript
+            )
+        ]
     )
     def generate_encoded(self, request, *args, **kwargs):
         script = self.get_object()
@@ -37,7 +51,7 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
     @action(
         detail=True,
         methods=['post'],
-        permission_classes=[IsDemoUser]
+        permission_classes=[AllowAny, IsDemoUser]
     )
     def generate_demo_encoded(self, request, *args, **kwargs):
         script = self.get_object()

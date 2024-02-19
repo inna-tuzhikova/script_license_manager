@@ -1,0 +1,5 @@
+- model: scripts.tag
+  pk: 1
+  fields:
+    name: archived
+    description: Archived scripts that are no longer supported

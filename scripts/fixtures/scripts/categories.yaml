@@ -1,0 +1,48 @@
+- model: scripts.category
+  pk: paid
+  fields:
+    name: Paid
+    description: Paid
+    parent: null
+- model: scripts.category
+  pk: bi_modules
+  fields:
+    name: BI Modules
+    description: BI Modules
+    parent: paid
+- model: scripts.category
+  pk: paid_scripts
+  fields:
+    name: Paid scripts
+    description: Paid scripts
+    parent: paid
+- model: scripts.category
+  pk: free
+  fields:
+    name: Free
+    description: Free
+    parent: null
+- model: scripts.category
+  pk: free_scripts
+  fields:
+    name: Free scripts
+    description: Free scripts
+    parent: free
+- model: scripts.category
+  pk: resources
+  fields:
+    name: Resources
+    description: Resources
+    parent: free
+- model: scripts.category
+  pk: internal
+  fields:
+    name: Internal scripts
+    description: Internal scripts
+    parent: null
+- model: scripts.category
+  pk: projects
+  fields:
+    name: Projects scripts
+    description: Projects scripts
+    parent: null
