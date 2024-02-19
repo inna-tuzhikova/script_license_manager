@@ -23,6 +23,9 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+    def __str__(self):
+        return self.name
+
 
 class Script(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
@@ -51,6 +54,9 @@ class Script(models.Model):
                 'Can generate encoded script ignoring script specification'
             ),
         ]
+
+    def __str__(self):
+        return self.name
 
 
 class IssuedLicense(models.Model):
