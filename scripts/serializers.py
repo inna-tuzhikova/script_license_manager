@@ -1,6 +1,52 @@
+import re
+from datetime import date
 from rest_framework import serializers
 
 from .models import Script, Tag, IssuedLicense
+
+
+class LicenseKeyField(serializers.CharField):
+    _USB_KEY_PATTERN = re.compile(r'^0x{0-9a-fA-F}{8}$')
+    _SRL_KEY_PATTERN = re.compile(
+        r'^[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}$'
+    )
+
+    def __init__(self, **kwargs):
+        kwargs.update(allow_blank=False, trim_whitespace=True)
+        super().__init__(**kwargs)
+        self.validators.append(self.license_key_validator)
+
+    def license_key_validator(self, value):
+        if len(value) == 8:
+            value = f'0x{value}'
+        elif len(value) == 10:
+            value = f'0x{value[2:]}'
+        if not (
+            self._USB_KEY_PATTERN.match(value)
+            or self._SRL_KEY_PATTERN.match(value)
+        ):
+            self.fail(
+                f'Unexpected license key. '
+                f'Expected `0x00000000` or `0000-0000-0000-0000`. '
+                f'Got `{value}`.'
+            )
+        return value
+
+
+class DownloadScriptRequestSerializer(serializers.Serializer):
+    license_key = LicenseKeyField(required=False, allow_null=True)
+    expires = serializers.DateField(required=False, allow_null=True)
+    extra_params = serializers.JSONField(
+        binary=True, required=False, allow_null=True
+    )
+
+    def validate_expires(self, value):
+        if value is not None:
+            if value <= date.today():
+                raise serializers.ValidationError(
+                    'Expiration date should be set later than today'
+                )
+        return value
 
 
 class TagSerializer(serializers.ModelSerializer):
