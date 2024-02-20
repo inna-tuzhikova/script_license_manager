@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True,
                                            serialize=False, verbose_name='ID')),
                 ('issued_at', models.DateTimeField()),
-                ('license_key', models.CharField()),
+                ('license_key', models.CharField(null=True)),
                 ('issue_type', models.CharField(
                     choices=[('PLAIN', 'Script without encoding'),
                              ('ENCODED', 'Encoded script'), (

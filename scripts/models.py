@@ -75,7 +75,7 @@ class IssuedLicense(models.Model):
         )
 
     issued_at = models.DateTimeField()
-    license_key = models.CharField()
+    license_key = models.CharField(null=True)
     script = models.ForeignKey(Script, on_delete=models.CASCADE)
     issued_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     issue_type = models.CharField(choices=IssueType.choices)

@@ -133,3 +133,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+
+# APP settings
+DEMO_KEY_DEFAULT_EXPIRATION_DAYS = int(os.environ.get(
+    'DEMO_KEY_DEFAULT_EXPIRATION_DAYS', '30'
+))
+DEMO_KEY_MAX_EXPIRATION_DAYS = int(os.environ.get(
+    'DEMO_KEY_MAX_EXPIRATION_DAYS', '365'
+))
+USER_KEY_MAX_EXPIRATION_DAYS = int(os.environ.get(
+    'USER_KEY_MAX_EXPIRATION_DAYS', '30'
+))

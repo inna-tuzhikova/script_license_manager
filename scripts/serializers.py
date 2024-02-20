@@ -6,7 +6,7 @@ from .models import Script, Tag, IssuedLicense
 
 
 class LicenseKeyField(serializers.CharField):
-    _USB_KEY_PATTERN = re.compile(r'^0x{0-9a-fA-F}{8}$')
+    _USB_KEY_PATTERN = re.compile(r'^0x[0-9a-fA-F]{8}$')
     _SRL_KEY_PATTERN = re.compile(
         r'^[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}$'
     )
@@ -25,7 +25,7 @@ class LicenseKeyField(serializers.CharField):
             self._USB_KEY_PATTERN.match(value)
             or self._SRL_KEY_PATTERN.match(value)
         ):
-            self.fail(
+            raise serializers.ValidationError(
                 f'Unexpected license key. '
                 f'Expected `0x00000000` or `0000-0000-0000-0000`. '
                 f'Got `{value}`.'
@@ -33,12 +33,8 @@ class LicenseKeyField(serializers.CharField):
         return value
 
 
-class DownloadScriptRequestSerializer(serializers.Serializer):
-    license_key = LicenseKeyField(required=False, allow_null=True)
+class RequestWithExpirationSerializer(serializers.Serializer):
     expires = serializers.DateField(required=False, allow_null=True)
-    extra_params = serializers.JSONField(
-        binary=True, required=False, allow_null=True
-    )
 
     def validate_expires(self, value):
         if value is not None:
@@ -47,6 +43,34 @@ class DownloadScriptRequestSerializer(serializers.Serializer):
                     'Expiration date should be set later than today'
                 )
         return value
+
+
+class RequestWithExtraParamsSerializer(serializers.Serializer):
+    extra_params = serializers.JSONField(
+        binary=True, required=False, allow_null=True
+    )
+
+
+class GeneratePlainRequestSerializer(RequestWithExtraParamsSerializer):
+    pass
+
+
+class GenerateEncodedRequestSerializer(
+    RequestWithExpirationSerializer,
+    RequestWithExtraParamsSerializer,
+):
+    license_key = LicenseKeyField(required=False, allow_null=True)
+
+
+class GenerateDemoEncodedRequestSerializer(
+    RequestWithExpirationSerializer,
+    RequestWithExtraParamsSerializer
+):
+    license_key = LicenseKeyField(required=True, allow_null=False)
+
+
+class UpdateIssuedRequestSerializer(GenerateDemoEncodedRequestSerializer):
+    pass
 
 
 class TagSerializer(serializers.ModelSerializer):
