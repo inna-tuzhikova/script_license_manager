@@ -145,3 +145,5 @@ DEMO_KEY_MAX_EXPIRATION_DAYS = int(os.environ.get(
 USER_KEY_MAX_EXPIRATION_DAYS = int(os.environ.get(
     'USER_KEY_MAX_EXPIRATION_DAYS', '30'
 ))
+
+LM_SERVICE_URL = os.environ.get('LM_SERVICE_URL')

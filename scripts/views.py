@@ -31,6 +31,8 @@ from .serializers import (
     ScriptSerializer,
     IssuedLicenseSerializer, RequestWithExpirationSerializer
 )
+from .services import license_key_service
+
 
 script_response = openapi.Response(
     'Script file to download',
@@ -121,7 +123,7 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
             is_demo = False
             license_key = serializer.validated_data.get('license_key')
             if license_key is not None:
-                is_demo = is_demo_key(license_key)
+                is_demo = license_key_service.is_demo_key(license_key)
                 maybe_response = self._validate_expiration(serializer, is_demo)
                 if maybe_response is not None:
                     return maybe_response
@@ -161,7 +163,9 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
         script = self.get_object()
         serializer = GenerateDemoEncodedRequestSerializer(data=request.data)
         if serializer.is_valid():
-            is_demo = is_demo_key(serializer.validated_data['license_key'])
+            is_demo = license_key_service.is_demo_key(
+                serializer.validated_data['license_key']
+            )
             if not is_demo:
                 return Response(
                     'Cannot issue license for not demo key',
@@ -218,7 +222,7 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
                     'Script has not been generated permanently for this key',
                     status=status.HTTP_403_FORBIDDEN
                 )
-            is_demo = is_demo_key(license_key)
+            is_demo = license_key_service.is_demo_key(license_key)
             maybe_response = self._validate_expiration(serializer, is_demo)
             if maybe_response is not None:
                 return maybe_response
@@ -326,10 +330,6 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
             expires=serializer.validated_data.get('expires'),
             extra_params=serializer.validated_data.get('extra_params'),
         )
-
-
-def is_demo_key(lk: str) -> bool:
-    return False
 
 
 class IssuedLicensePagination(LimitOffsetPagination):
