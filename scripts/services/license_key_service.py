@@ -8,6 +8,3 @@ class LicenseKeyService:
     def is_demo_key(self, license_key: str) -> bool:
         # TODO add redis lk caching
         return True
-
-
-license_key_service = LicenseKeyService()

@@ -4,7 +4,7 @@ from rest_framework.request import Request
 from .models import FORCE_ISSUE_PLAIN_SCRIPT, FORCE_ISSUE_ENCODED_SCRIPT
 
 
-class IsDownloadable(BasePermission):
+class IsDownloadableScript(BasePermission):
     message = 'Disabled or deleted script cannot be downloaded'
 
     def has_object_permission(self, request, view, obj):

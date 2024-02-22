@@ -1,5 +1,7 @@
 import re
 from datetime import date
+
+import jsonschema
 from rest_framework import serializers
 
 from .models import Script, Tag, IssuedLicense
@@ -49,6 +51,28 @@ class RequestWithExtraParamsSerializer(serializers.Serializer):
     extra_params = serializers.JSONField(
         binary=True, required=False, allow_null=True
     )
+
+    def validate(self, attrs):
+        if not isinstance(self.context, Script):
+            raise serializers.ValidationError(
+                'Pass script ctx to validate extra_params'
+            )
+        schema = self.context.extra_params_schema
+        if schema is not None:
+            extra_params = attrs.get('extra_params')
+            if extra_params is None:
+                raise serializers.ValidationError(
+                    f'`extra_params` is required for {self.context.name}. '
+                    f'Check schema: {schema}',
+                )
+            try:
+                jsonschema.validate(instance=extra_params, schema=schema)
+            except jsonschema.exceptions.ValidationError:
+                raise serializers.ValidationError(
+                    f'Invalid `extra_params` for {self.context.name}. '
+                    f'Check schema: {schema}'
+                )
+        return attrs
 
 
 class GeneratePlainRequestSerializer(RequestWithExtraParamsSerializer):

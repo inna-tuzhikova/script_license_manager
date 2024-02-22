@@ -12,6 +12,3 @@ class ScriptEncodingService:
         extra_params: dict
     ):
         pass
-
-
-encoding_service = ScriptEncodingService()
