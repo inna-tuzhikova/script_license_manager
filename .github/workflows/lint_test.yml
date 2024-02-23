@@ -1,0 +1,26 @@
+name: Testing and linting Script License Manager
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    env:
+      COMPOSE_FILE: docker-compose.ci.yml
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build docker images
+      run: docker-compose build
+
+    - name: Run linters
+      run: docker-compose run service_lint_test
