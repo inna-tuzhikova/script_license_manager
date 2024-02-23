@@ -5,6 +5,8 @@ from .models import Script
 
 
 class ScriptFilter(FilterSet):
+    """Filtering scripts requests with get params"""
+
     without_tag = CharFilter(field_name='tags__name', exclude=True)
     tag = CharFilter(field_name='tags__name')
 

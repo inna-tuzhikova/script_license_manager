@@ -14,6 +14,8 @@ from .structures import (
 
 
 class ScriptLicenseManagerService:
+    """Service processing app domain logic"""
+
     def __init__(
         self,
         lk_service: LicenseKeyService,

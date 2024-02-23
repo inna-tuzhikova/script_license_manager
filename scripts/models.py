@@ -6,6 +6,8 @@ FORCE_ISSUE_ENCODED_SCRIPT = 'force_issue_encoded_script'
 
 
 class Tag(models.Model):
+    """Text tags for scripts"""
+
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=1000, null=True)
 
@@ -14,6 +16,8 @@ class Tag(models.Model):
 
 
 class Category(models.Model):
+    """Scripts category"""
+
     id = models.CharField(max_length=100, primary_key=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)

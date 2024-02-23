@@ -12,8 +12,11 @@ from .structures import (
 
 
 class IssuedLicenseDAO:
+    """Data access object to connect with issued license storage"""
+
     @staticmethod
     def add(entity: IssuedLicense) -> None:
+        """Adds record with issued script"""
         IssuedLicenseModel.objects.create(
             issued_at=entity.issued_at or timezone.now(),
             license_key=entity.license_key,
@@ -31,6 +34,7 @@ class IssuedLicenseDAO:
         script: Script,
         config: ScriptLicenseConfig
     ) -> None | IssuedLicense:
+        """Searches for generated license for script + lk pair"""
         result = None
         issued: IssuedLicenseModel = IssuedLicenseModel.objects.filter(
             script_id=script.id,

@@ -8,6 +8,8 @@ from .models import IssuedLicense, Script, Tag
 
 
 class LicenseKeyField(serializers.CharField):
+    """Checks license key format"""
+
     _USB_KEY_PATTERN = re.compile(r'^0x[0-9a-fA-F]{8}$')
     _SRL_KEY_PATTERN = re.compile(
         r'^[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}$'
@@ -76,6 +78,7 @@ class RequestWithExtraParamsSerializer(serializers.Serializer):
 
 
 class GeneratePlainRequestSerializer(RequestWithExtraParamsSerializer):
+    """Serializer for incoming `generate_plain` requests"""
     pass
 
 
@@ -83,6 +86,7 @@ class GenerateEncodedRequestSerializer(
     RequestWithExpirationSerializer,
     RequestWithExtraParamsSerializer,
 ):
+    """Serializer for incoming `generate_encoded` requests"""
     license_key = LicenseKeyField(required=False, allow_null=True)
 
 
@@ -90,10 +94,12 @@ class GenerateDemoEncodedRequestSerializer(
     RequestWithExpirationSerializer,
     RequestWithExtraParamsSerializer
 ):
+    """Serializer for incoming `generate_demo_encoded` requests"""
     license_key = LicenseKeyField(required=True, allow_null=False)
 
 
 class UpdateIssuedRequestSerializer(GenerateDemoEncodedRequestSerializer):
+    """Serializer for incoming `update_issued` requests"""
     pass
 
 
@@ -104,6 +110,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ScriptSerializer(serializers.ModelSerializer):
+    """Serializer for Script model"""
     tags = TagSerializer(read_only=True, many=True)
 
     class Meta:
@@ -119,6 +126,7 @@ class ScriptSerializer(serializers.ModelSerializer):
 
 
 class IssuedLicenseSerializer(serializers.ModelSerializer):
+    """Serializer for Issued Licenses model"""
     issued_by = serializers.ReadOnlyField(source='issued_by.username')
 
     class Meta:

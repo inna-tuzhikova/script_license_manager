@@ -4,6 +4,8 @@ from .models import Category, IssuedLicense, Script, Tag
 
 
 class ReadOnlyModelAdmin(admin.ModelAdmin):
+    """Admin model what prevents objects from editing with admin site"""
+
     def has_add_permission(self, request, obj=None):
         return False
 
@@ -20,6 +22,8 @@ class TagInline(admin.TabularInline):
 
 
 class ScriptAdmin(ReadOnlyModelAdmin):
+    """Admin model what prevents scripts from editing with admin site"""
+
     list_display = [
         'name', 'description', 'category_id', 'enabled', 'is_active'
     ]
@@ -30,6 +34,8 @@ class ScriptAdmin(ReadOnlyModelAdmin):
 
 
 class IssuedLicenseAdmin(ReadOnlyModelAdmin):
+    """Admin model what prevents license records from editing with admin site"""
+
     list_display = [
         'issued_at', 'script_id', 'license_key', 'issued_by',
         'issue_type', 'action', 'expires'

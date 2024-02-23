@@ -2,6 +2,8 @@ from datetime import date
 
 
 class ScriptEncodingService:
+    """Service responsible for encoding scripts"""
+
     def __init__(self):
         pass
 

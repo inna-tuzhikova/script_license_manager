@@ -5,6 +5,8 @@ from .models import FORCE_ISSUE_ENCODED_SCRIPT, FORCE_ISSUE_PLAIN_SCRIPT
 
 
 class IsDownloadableScript(BasePermission):
+    """Prevents from downloading disabled or deleted scripts"""
+
     message = 'Disabled or deleted script cannot be downloaded'
 
     def has_object_permission(self, request, view, obj) -> bool:
@@ -12,6 +14,12 @@ class IsDownloadableScript(BasePermission):
 
 
 class CanForceIssuePlainScript(BasePermission):
+    """Checks user permission to download plain scripts despite specification
+
+    Even if script specification forbids downloading plain version user with
+    given permission can download it
+    """
+
     message = 'No permissions to download plain script'
 
     def has_permission(self, request, view) -> bool:
@@ -23,6 +31,12 @@ class CanForceIssuePlainScript(BasePermission):
 
 
 class CanForceIssueEncodedScript(BasePermission):
+    """Checks user permission to download encoded scripts despite specification
+
+    Even if script specification forbids downloading encoded version user with
+    given permission can download it
+    """
+
     message = 'No permissions to download encoded script'
 
     def has_permission(self, request, view) -> bool:
@@ -34,6 +48,8 @@ class CanForceIssueEncodedScript(BasePermission):
 
 
 class CanIssuePlainScript(BasePermission):
+    """Checks if script specification allows to download plain script"""
+
     message = 'No permissions to download plain script'
 
     def has_object_permission(self, request, view, obj) -> bool:
@@ -41,6 +57,8 @@ class CanIssuePlainScript(BasePermission):
 
 
 class CanIssueEncodedScript(BasePermission):
+    """Checks if script specification allows to download encoded script"""
+
     message = 'No permissions to download encoded script'
 
     def has_object_permission(self, request: Request, view, obj) -> bool:

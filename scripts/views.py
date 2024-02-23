@@ -42,6 +42,18 @@ script_response = openapi.Response(
 @method_decorator(name='list', decorator=swagger_auto_schema(security=[]))
 @method_decorator(name='retrieve', decorator=swagger_auto_schema(security=[]))
 class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
+    """Set of views responsible for `script` resource
+
+    Endpoints:
+     - list of available scripts with pagination and filters (category, enabled,
+       is_active, tag, without_tag)
+     - script details
+     - per script `generate_plain`
+     - per script `generate_encoded`
+     - per script `generate_demo_encoded`
+     - per script `update_issued`
+    """
+
     queryset = ScriptModel.objects.all()
     serializer_class = ScriptSerializer
     filterset_class = ScriptFilter
@@ -263,6 +275,13 @@ class IssuedLicensePagination(LimitOffsetPagination):
 
 
 class IssuedLicenseViewSet(viewsets.ReadOnlyModelViewSet):
+    """Set of views responsible for `issued_license` resource
+
+    Endpoints:
+     - issued licensed list with pagination
+     - issued license details
+    """
+
     queryset = IssuedLicense.objects.all()
     serializer_class = IssuedLicenseSerializer
     permission_classes = [IsAuthenticated]

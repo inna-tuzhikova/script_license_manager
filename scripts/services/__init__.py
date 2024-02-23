@@ -8,6 +8,7 @@ from .script_license_manager_service import ScriptLicenseManagerService
 
 
 def init_services():
+    """Initializes app services"""
     settings = AppSettings(
         demo_key_default_expiration_days=sett.DEMO_KEY_DEFAULT_EXPIRATION_DAYS,
         demo_key_max_expiration_days=sett.DEMO_KEY_MAX_EXPIRATION_DAYS,
