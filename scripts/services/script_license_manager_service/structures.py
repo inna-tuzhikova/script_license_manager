@@ -55,7 +55,7 @@ class IssuedLicense:
     extra_params: None | dict
 
     @property
-    def is_permanent(self):
+    def is_permanent(self) -> bool:
         return self.expires is None
 
 

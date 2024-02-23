@@ -240,7 +240,10 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    def _prepare_python_file_response(self, generated: GeneratedScript):
+    def _prepare_python_file_response(
+        self,
+        generated: GeneratedScript
+    ) -> Response:
         file_response = Response(
             headers={
                 'Content-Disposition':

@@ -7,14 +7,14 @@ from .models import FORCE_ISSUE_ENCODED_SCRIPT, FORCE_ISSUE_PLAIN_SCRIPT
 class IsDownloadableScript(BasePermission):
     message = 'Disabled or deleted script cannot be downloaded'
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj) -> bool:
         return obj.is_active and obj.enabled
 
 
 class CanForceIssuePlainScript(BasePermission):
     message = 'No permissions to download plain script'
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view) -> bool:
         return bool(
             request.user
             and request.user.is_authenticated
@@ -25,7 +25,7 @@ class CanForceIssuePlainScript(BasePermission):
 class CanForceIssueEncodedScript(BasePermission):
     message = 'No permissions to download encoded script'
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, view) -> bool:
         return bool(
             request.user
             and request.user.is_authenticated
@@ -36,14 +36,14 @@ class CanForceIssueEncodedScript(BasePermission):
 class CanIssuePlainScript(BasePermission):
     message = 'No permissions to download plain script'
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj) -> bool:
         return obj.allow_issue_plain
 
 
 class CanIssueEncodedScript(BasePermission):
     message = 'No permissions to download encoded script'
 
-    def has_object_permission(self, request: Request, view, obj):
+    def has_object_permission(self, request: Request, view, obj) -> bool:
         got_license_key = request.data.get('license_key') is not None
         got_expires = request.data.get('expires') is not None
 
