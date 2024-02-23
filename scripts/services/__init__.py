@@ -1,8 +1,8 @@
 from django.conf import settings as sett
 
 from .app_settings import AppSettings
-from .license_key_service import LicenseKeyService
 from .encoding_service import ScriptEncodingService
+from .license_key_service import LicenseKeyService
 from .repo_service import RepoService
 from .script_license_manager_service import ScriptLicenseManagerService
 

@@ -1,7 +1,7 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
 
-from .models import FORCE_ISSUE_PLAIN_SCRIPT, FORCE_ISSUE_ENCODED_SCRIPT
+from .models import FORCE_ISSUE_ENCODED_SCRIPT, FORCE_ISSUE_PLAIN_SCRIPT
 
 
 class IsDownloadableScript(BasePermission):

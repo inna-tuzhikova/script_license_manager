@@ -1,6 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
-
+from django.db import models
 
 FORCE_ISSUE_PLAIN_SCRIPT = 'force_issue_plain_script'
 FORCE_ISSUE_ENCODED_SCRIPT = 'force_issue_encoded_script'

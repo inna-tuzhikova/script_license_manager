@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Script, IssuedLicense, Tag, Category
+from .models import Category, IssuedLicense, Script, Tag
 
 
 class ReadOnlyModelAdmin(admin.ModelAdmin):
