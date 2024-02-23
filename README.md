@@ -16,7 +16,7 @@ Frontend:
 * Client web application (TODO)
 
 ## Run dev
-`docker-compose up --build`
+`docker-compose -f docker-compose.dev.yml up --build`
 
 ## Run linters and tests
 `docker-compose -f docker-compose.ci.yml up --build`
