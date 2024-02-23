@@ -4,7 +4,7 @@ from datetime import date
 import jsonschema
 from rest_framework import serializers
 
-from .models import Script, Tag, IssuedLicense
+from .models import IssuedLicense, Script, Tag
 
 
 class LicenseKeyField(serializers.CharField):
@@ -54,7 +54,7 @@ class RequestWithExtraParamsSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         if not isinstance(self.context, Script):
-            raise serializers.ValidationError(
+            raise RuntimeError(
                 'Pass script ctx to validate extra_params'
             )
         schema = self.context.extra_params_schema
@@ -119,6 +119,8 @@ class ScriptSerializer(serializers.ModelSerializer):
 
 
 class IssuedLicenseSerializer(serializers.ModelSerializer):
+    issued_by = serializers.ReadOnlyField(source='issued_by.username')
+
     class Meta:
         model = IssuedLicense
         fields = [

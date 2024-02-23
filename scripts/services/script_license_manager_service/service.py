@@ -1,15 +1,16 @@
 from datetime import date, timedelta
 
-from .structures import (
-    ScriptLicenseConfig,
-    Script,
-    IssuedLicense,
-    ActionType,
-    GeneratedScript
-)
-from .storage_adapters import IssuedLicenseDAO
-from scripts.services.license_key_service import LicenseKeyService
 from scripts.services.app_settings import AppSettings
+from scripts.services.license_key_service import LicenseKeyService
+
+from .storage_adapters import IssuedLicenseDAO
+from .structures import (
+    ActionType,
+    GeneratedScript,
+    IssuedLicense,
+    Script,
+    ScriptLicenseConfig,
+)
 
 
 class ScriptLicenseManagerService:
@@ -37,7 +38,7 @@ class ScriptLicenseManagerService:
         config: ScriptLicenseConfig
     ) -> GeneratedScript:
         issued = IssuedLicenseDAO.find_existing_license(script, config)
-        if issued is None or not issued.is_permanent():
+        if issued is None or not issued.is_permanent:
             raise PermissionError(
                 'Script has not been generated permanently for this key'
             )

@@ -1,11 +1,12 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from rest_framework.permissions import AllowAny
-from drf_yasg.views import get_schema_view
+from django.urls import include, path
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework.permissions import AllowAny
+from rest_framework.routers import DefaultRouter
 
-from .views import ScriptViewSet, IssuedLicenseViewSet
+from .views import IssuedLicenseViewSet, ScriptViewSet
 
+app_name = 'scripts'
 
 schema_view = get_schema_view(
     openapi.Info(

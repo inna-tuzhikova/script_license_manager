@@ -1,34 +1,36 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.request import Request
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.pagination import LimitOffsetPagination
+from django.utils.decorators import method_decorator
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from django.utils.decorators import method_decorator
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 from .filters import ScriptFilter
-from .models import Script as ScriptModel, IssuedLicense
+from .models import IssuedLicense
+from .models import Script as ScriptModel
 from .permissions import (
-    IsDownloadableScript,
-    CanForceIssuePlainScript,
     CanForceIssueEncodedScript,
-    CanIssuePlainScript,
+    CanForceIssuePlainScript,
     CanIssueEncodedScript,
+    CanIssuePlainScript,
+    IsDownloadableScript,
 )
 from .serializers import (
-    GeneratePlainRequestSerializer,
-    GenerateEncodedRequestSerializer,
     GenerateDemoEncodedRequestSerializer,
-    UpdateIssuedRequestSerializer,
+    GenerateEncodedRequestSerializer,
+    GeneratePlainRequestSerializer,
+    IssuedLicenseSerializer,
     ScriptSerializer,
-    IssuedLicenseSerializer
+    UpdateIssuedRequestSerializer,
 )
 from .services import lk_service, script_license_manager_service
 from .services.script_license_manager_service.structures import (
+    GeneratedScript,
     Script,
-    ScriptLicenseConfig, GeneratedScript
+    ScriptLicenseConfig,
 )
 
 script_response = openapi.Response(
@@ -153,7 +155,11 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
     @action(
         detail=True,
         methods=['post'],
-        permission_classes=[AllowAny, IsDownloadableScript],
+        permission_classes=[
+            AllowAny,
+            IsDownloadableScript,
+            CanForceIssueEncodedScript | CanIssueEncodedScript
+        ],
     )
     def generate_demo_encoded(self, request: Request, *args, **kwargs):
         script = self.get_object()
@@ -205,7 +211,11 @@ class ScriptViewSet(viewsets.ReadOnlyModelViewSet):
     @action(
         detail=True,
         methods=['post'],
-        permission_classes=[AllowAny, IsDownloadableScript],
+        permission_classes=[
+            AllowAny,
+            IsDownloadableScript,
+            CanForceIssueEncodedScript | CanIssueEncodedScript
+        ],
     )
     def update_issued(self, request: Request, *args, **kwargs):
         script = self.get_object()
